@@ -38,6 +38,9 @@
        
     self.motionManager = [[CMMotionManager alloc] init];
     [self startMoving];
+    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(moveTarget) userInfo:nil repeats:YES];
+
+    
     }
 
 -(void)getMotionDataWithPitch:(float) pitch withRoll:(float) roll {
@@ -72,7 +75,6 @@
     NSLog(@"Ball Position is: %f, %f",self.ball.center.x, self.ball.center.y);
     [self.ball setNeedsDisplay];
     [self isBallInTarget];
-    //NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:3.0 invocation:@selector(moveTarget) repeats:YES];
 
 }
 
@@ -97,8 +99,6 @@
 }
 
 -(void) isBallInTarget {
-    //CGRectIntersectsRect(CGRectMake(self.target.frame.origin.x + self.target.bounds.size.width/4.0, self.target.frame.origin.y+ self.target.bounds.size.height/4.0,self.target.bounds.size.width/2.0, self.target.bounds.size.height/2.0), self.ball.frame)
-    
     if (CGRectContainsPoint(self.ball.frame, self.target.center)) {
         [self.motionManager stopDeviceMotionUpdates];
         if (!self.alreadyHasAlert) {
@@ -121,16 +121,26 @@
 
 -(void) moveTarget {
     
-    BOOL inXDirection = arc4random()%1;
+    
+    float randomTranslateValueX = 0;
+    float randomTranslateValueY = 0;
+    int inXDirection = arc4random()%2;
     if (inXDirection) {
         //move random x direction
-        //self.target.center.x +=
-
+        randomTranslateValueX = 50 - arc4random()%100;
+        randomTranslateValueY = 0;
     } else {
         //move random y direction
+        randomTranslateValueX = 0;
+        randomTranslateValueY = 50 - arc4random()%100;
     }
-    //self.target.center =
-    
+    CGPoint translatePosition = CGPointMake(self.target.center.x + randomTranslateValueX, self.target.center.y +randomTranslateValueY);
+    if ((CGRectContainsPoint(self.view.frame, translatePosition))) {
+        self.target.center = translatePosition;
+    } else {
+        //[self moveTarget];
+    }
+    [self.target setNeedsDisplay];
 }
 
 -(void) resetBall {
