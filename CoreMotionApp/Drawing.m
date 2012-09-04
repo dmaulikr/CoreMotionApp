@@ -15,6 +15,7 @@ UIBezierPath* myPath;
 
 - (void)drawRect:(CGRect)rect {
     
+    /*
     // CGContextRef presents the drawing environment
     CGContextRef context = UIGraphicsGetCurrentContext();
     
@@ -109,7 +110,7 @@ UIBezierPath* myPath;
 //    CGContextSetFillColor(context, CGColorGetComponents([[UIColor blueColor] CGColor]));
 //    CGContextEOFillPath(context);
 
-    
+    */
     
     
 }

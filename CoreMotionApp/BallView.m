@@ -17,8 +17,10 @@
     if (self) {
         // Initialization code
         self.backgroundColor = [UIColor clearColor];
-        //self.ballPosition = CGPointMake(self.bounds.size.width /2, self.bounds.size.height / 2);
-    
+        UIImageView *targetImage= [[UIImageView alloc] initWithFrame:self.bounds];
+        targetImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"coyote"]];
+        targetImage.contentMode = UIViewContentModeScaleAspectFit;
+        [self addSubview:targetImage];
     }
     return self;
 }
@@ -28,13 +30,13 @@
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    // Drawing code
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [[UIColor cyanColor] set];
-    CGPoint center = CGPointMake(self.bounds.size.width /2, self.bounds.size.height / 2);
-    CGFloat radius = self.bounds.size.width/2.0;
-    CGContextAddArc(context, center.x, center.y, radius, 0.0, 2*M_PI, 0);
-    CGContextFillPath(context);
+    // Drawing  ball
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    [[UIColor cyanColor] set];
+//    CGPoint center = CGPointMake(self.bounds.size.width /2, self.bounds.size.height / 2);
+//    CGFloat radius = self.bounds.size.width/2.0;
+//    CGContextAddArc(context, center.x, center.y, radius, 0.0, 2*M_PI, 0);
+//    CGContextFillPath(context);
 }
 
 

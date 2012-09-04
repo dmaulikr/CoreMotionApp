@@ -27,6 +27,7 @@
 @implementation ViewController
 
 -(void)loadView {
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:YES];
     
     Drawing *view = [[Drawing alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     self.view = view;
@@ -50,13 +51,24 @@
 -(void)moveBall{
     
     float speedMultiplier = 5.0;
-    if (((self.ball.center.x+self.ball.bounds.size.width/2.0 > self.view.bounds.size.width) && self.currentRoll >0) || ((self.ball.center.x-self.ball.bounds.size.width/2.0 < self.view.bounds.origin.x) && self.currentRoll <0)) {
+    
+    // NEED TO FIGURE OUT WHY THE BALL STILL ESCAPES AT EACH OF THE FOUR CORNERS //
+    if (((self.ball.center.x+self.ball.bounds.size.width/2.0 >= self.view.bounds.size.width) && self.currentRoll >0) || ((self.ball.center.x-self.ball.bounds.size.width/2.0 <= self.view.bounds.origin.x) && self.currentRoll <0)) {
+        if (((self.ball.center.y+self.ball.bounds.size.height/2.0 >= self.view.bounds.size.height) && self.currentPitch >0) || ((self.ball.center.y-self.ball.bounds.size.height/2.0 <= self.view.bounds.origin.y) && self.currentPitch <0)) {
+            self.ball.center = CGPointMake(self.ball.center.x, self.ball.center.y);
+        } else {
         self.ball.center = CGPointMake(self.ball.center.x, self.ball.center.y+self.currentPitch*speedMultiplier);
-    } else if (((self.ball.center.y+self.ball.bounds.size.height/2.0 > self.view.bounds.size.height) && self.currentPitch >0) || ((self.ball.center.y-self.ball.bounds.size.height/2.0 < self.view.bounds.origin.y) && self.currentPitch <0)) {
+        }
+    } else if (((self.ball.center.y+self.ball.bounds.size.height/2.0 >= self.view.bounds.size.height) && self.currentPitch >0) || ((self.ball.center.y-self.ball.bounds.size.height/2.0 <= self.view.bounds.origin.y) && self.currentPitch <0)) {
+        if (((self.ball.center.x+self.ball.bounds.size.width/2.0 >= self.view.bounds.size.width) && self.currentRoll >0) || ((self.ball.center.x-self.ball.bounds.size.width/2.0 <= self.view.bounds.origin.x) && self.currentRoll <0)) {
+                self.ball.center = CGPointMake(self.ball.center.x, self.ball.center.y);
+        } else {
         self.ball.center = CGPointMake(self.ball.center.x+self.currentRoll*speedMultiplier, self.ball.center.y);
+        }
     } else {
         self.ball.center = CGPointMake(self.ball.center.x+self.currentRoll*speedMultiplier, self.ball.center.y+self.currentPitch*speedMultiplier);
     }
+    
     NSLog(@"Ball Position is: %f, %f",self.ball.center.x, self.ball.center.y);
     [self.ball setNeedsDisplay];
     [self isBallInTarget];
@@ -68,7 +80,7 @@
 {
     if (buttonIndex == 0)
     {
-        self.target.center = CGPointMake(arc4random() % (int) self.view.bounds.size.width, arc4random() % (int) self.view.bounds.size.height);
+        self.target.center = CGPointMake(arc4random() % ((int) self.view.bounds.size.width - (int) self.target.bounds.size.width/2), arc4random() % ((int) self.view.bounds.size.height-(int) self.target.bounds.size.height/2));
         self.ball.center = CGPointMake(self.view.bounds.size.width/2.0, self.view.bounds.size.height/2.0);
         [self startMoving];
         self.alreadyHasAlert = NO;
@@ -85,10 +97,12 @@
 }
 
 -(void) isBallInTarget {
-    if (CGRectContainsRect(self.target.frame, self.ball.frame)) {
+    //CGRectIntersectsRect(CGRectMake(self.target.frame.origin.x + self.target.bounds.size.width/4.0, self.target.frame.origin.y+ self.target.bounds.size.height/4.0,self.target.bounds.size.width/2.0, self.target.bounds.size.height/2.0), self.ball.frame)
+    
+    if (CGRectContainsPoint(self.ball.frame, self.target.center)) {
         [self.motionManager stopDeviceMotionUpdates];
         if (!self.alreadyHasAlert) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Booyah!" message:@"You got it in :)" delegate:self cancelButtonTitle:@"Play again" otherButtonTitles:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Beep Beep!" message:@"You caught me..." delegate:self cancelButtonTitle:@"Play again" otherButtonTitles:nil];
             [alert show];
             self.alreadyHasAlert = YES;
         }
@@ -97,7 +111,7 @@
 }
 
 -(void) makeRandomTarget {
-    CGRect targetRect = CGRectMake(arc4random() % ((int) self.view.bounds.size.width - 50), arc4random() % ((int) self.view.bounds.size.height - 50), 50.0, 50.0);
+    CGRect targetRect = CGRectMake(arc4random() % ((int) self.view.bounds.size.width - 75), arc4random() % ((int) self.view.bounds.size.height - 75), 75.0, 75.0);
     self.target = [[TargetView alloc] initWithFrame: targetRect];
     [self.view addSubview:self.target];
     [self.target setNeedsDisplay];
@@ -121,7 +135,7 @@
 
 -(void) resetBall {
     
-    self.ball = [[BallView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0-10.0, self.view.bounds.size.height/2.0-10.0, 20.0, 20.0)];
+    self.ball = [[BallView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0-37.5, self.view.bounds.size.height/2.0-37.5, 75.0, 75.0)];
     [self.view addSubview:self.ball];
     [self.ball setNeedsDisplay];
 

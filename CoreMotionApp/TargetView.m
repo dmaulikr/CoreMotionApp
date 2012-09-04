@@ -15,10 +15,16 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor lightGrayColor];
-    }
+        
+        self.backgroundColor = [UIColor clearColor];
+        UIImageView *targetImage= [[UIImageView alloc] initWithFrame:self.bounds];
+        targetImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"roadrunner.png"]];
+        targetImage.contentMode = UIViewContentModeScaleAspectFit;
+        [self addSubview:targetImage];
+           }
     return self;
 }
+
 
 
 // Only override drawRect: if you perform custom drawing.
@@ -26,6 +32,7 @@
 - (void)drawRect:(CGRect)rect
 {
     // Drawing code
+    
 
 }
 

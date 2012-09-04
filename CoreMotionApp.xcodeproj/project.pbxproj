@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2563C87C15F5ECD600ECEE69 /* roadrunner.png in Resources */ = {isa = PBXBuildFile; fileRef = 2563C87B15F5ECD600ECEE69 /* roadrunner.png */; };
+		2563C87F15F6820C00ECEE69 /* coyote.png in Resources */ = {isa = PBXBuildFile; fileRef = 2563C87E15F6820C00ECEE69 /* coyote.png */; };
 		25CFDC5215F56E6C000E030B /* BallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CFDC5115F56E6C000E030B /* BallView.m */; };
 		25CFDC5515F58550000E030B /* TargetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CFDC5415F58550000E030B /* TargetView.m */; };
 		FABB2AD815F528F5003BE4C4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABB2AD715F528F5003BE4C4 /* UIKit.framework */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2563C87B15F5ECD600ECEE69 /* roadrunner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roadrunner.png; sourceTree = "<group>"; };
+		2563C87E15F6820C00ECEE69 /* coyote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coyote.png; sourceTree = "<group>"; };
 		25CFDC5015F56E6C000E030B /* BallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BallView.h; sourceTree = "<group>"; };
 		25CFDC5115F56E6C000E030B /* BallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BallView.m; sourceTree = "<group>"; };
 		25CFDC5315F58550000E030B /* TargetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TargetView.h; sourceTree = "<group>"; };
@@ -88,6 +92,8 @@
 		FABB2ADD15F528F5003BE4C4 /* CoreMotionApp */ = {
 			isa = PBXGroup;
 			children = (
+				2563C87B15F5ECD600ECEE69 /* roadrunner.png */,
+				2563C87E15F6820C00ECEE69 /* coyote.png */,
 				FAC345F415F52C5700E11611 /* Drawing.h */,
 				FAC345F115F52C5200E11611 /* Drawing.m */,
 				25CFDC5315F58550000E030B /* TargetView.h */,
@@ -166,6 +172,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FABB2AE215F528F5003BE4C4 /* InfoPlist.strings in Resources */,
+				2563C87C15F5ECD600ECEE69 /* roadrunner.png in Resources */,
+				2563C87F15F6820C00ECEE69 /* coyote.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
