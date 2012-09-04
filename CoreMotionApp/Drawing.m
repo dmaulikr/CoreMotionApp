@@ -71,43 +71,50 @@ UIBezierPath* myPath;
     
     
     // draw game ball
+    
+    [self redrawBallPosition];
  
-    CGRect gameBall = self.bounds;
-    
-    CGContextSaveGState(context);
-    
-    CGContextAddEllipseInRect(context, gameBall);
-    CGContextClip(context);
-   
-    CGRect topLeft2 = CGRectMake(40, 40, 40, 40);
-    CGRect topRight2 = CGRectMake(40, 40, 40, 40);
-    CGRect bottomLeft2 = CGRectMake(40, 40, 40, 40);
-    CGRect bottomRight2 = CGRectMake(40, 40, 40, 40);
+//    CGRect gameBall = self.bounds;
+//    
+//    CGContextSaveGState(context);
+//    
+//    CGContextAddEllipseInRect(context, gameBall);
+//    CGContextClip(context);
+//   
+//    CGRect topLeft2 = CGRectMake(40, 40, 40, 40);
+//    CGRect topRight2 = CGRectMake(40, 40, 40, 40);
+//    CGRect bottomLeft2 = CGRectMake(40, 40, 40, 40);
+//    CGRect bottomRight2 = CGRectMake(40, 40, 40, 40);
+//
+//    CGContextSetFillColorWithColor(context, [[UIColor blueColor] CGColor]);
+//    CGContextFillRect(context, topLeft2);
+//    
+//    CGContextSetFillColorWithColor(context, [[UIColor blueColor] CGColor]);
+//    CGContextFillRect(context, topRight2);
+//    
+//    CGContextSetFillColorWithColor(context, [[UIColor blueColor] CGColor]);
+//    CGContextFillRect(context, bottomLeft2);
+//    
+//    CGContextSetFillColorWithColor(context, [[UIColor blueColor] CGColor]);
+//    CGContextFillRect(context, bottomRight2);
+//
+//
+//    CGContextAddEllipseInRect(context, rect);
+//    CGContextAddEllipseInRect(context,
+//                              CGRectMake(
+//                                         rect.origin.x + 10,
+//                                         rect.origin.y + 10,
+//                                         rect.size.width - 20,
+//                                         rect.size.height - 20));
+//    CGContextSetFillColor(context, CGColorGetComponents([[UIColor blueColor] CGColor]));
+//    CGContextEOFillPath(context);
 
-    CGContextSetFillColorWithColor(context, [[UIColor blueColor] CGColor]);
-    CGContextFillRect(context, topLeft2);
     
-    CGContextSetFillColorWithColor(context, [[UIColor blueColor] CGColor]);
-    CGContextFillRect(context, topRight2);
     
-    CGContextSetFillColorWithColor(context, [[UIColor blueColor] CGColor]);
-    CGContextFillRect(context, bottomLeft2);
     
-    CGContextSetFillColorWithColor(context, [[UIColor blueColor] CGColor]);
-    CGContextFillRect(context, bottomRight2);
+}
 
-
-    CGContextAddEllipseInRect(context, rect);
-    CGContextAddEllipseInRect(context,
-                              CGRectMake(
-                                         rect.origin.x + 10,
-                                         rect.origin.y + 10,
-                                         rect.size.width - 20,
-                                         rect.size.height - 20));
-    CGContextSetFillColor(context, CGColorGetComponents([[UIColor blueColor] CGColor]));
-    CGContextEOFillPath(context);
-
-    
+-(void) redrawBallPosition {
     
     
 }

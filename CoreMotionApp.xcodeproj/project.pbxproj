@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25CFDC5215F56E6C000E030B /* BallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CFDC5115F56E6C000E030B /* BallView.m */; };
+		25CFDC5515F58550000E030B /* TargetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CFDC5415F58550000E030B /* TargetView.m */; };
 		FABB2AD815F528F5003BE4C4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABB2AD715F528F5003BE4C4 /* UIKit.framework */; };
 		FABB2ADA15F528F5003BE4C4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABB2AD915F528F5003BE4C4 /* Foundation.framework */; };
 		FABB2ADC15F528F5003BE4C4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABB2ADB15F528F5003BE4C4 /* CoreGraphics.framework */; };
@@ -16,10 +18,13 @@
 		FABB2AEB15F528F5003BE4C4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FABB2AEA15F528F5003BE4C4 /* ViewController.m */; };
 		FABB2AF515F52AF0003BE4C4 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABB2AF415F52AF0003BE4C4 /* CoreMotion.framework */; };
 		FAC345F215F52C5200E11611 /* Drawing.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC345F115F52C5200E11611 /* Drawing.m */; };
-		FAC3460115F53EAD00E11611 /* movingBall.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC3460015F53EAD00E11611 /* movingBall.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		25CFDC5015F56E6C000E030B /* BallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BallView.h; sourceTree = "<group>"; };
+		25CFDC5115F56E6C000E030B /* BallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BallView.m; sourceTree = "<group>"; };
+		25CFDC5315F58550000E030B /* TargetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TargetView.h; sourceTree = "<group>"; };
+		25CFDC5415F58550000E030B /* TargetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TargetView.m; sourceTree = "<group>"; };
 		FABB2AD315F528F5003BE4C4 /* CoreMotionApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreMotionApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FABB2AD715F528F5003BE4C4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FABB2AD915F528F5003BE4C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -35,8 +40,6 @@
 		FABB2AF415F52AF0003BE4C4 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		FAC345F115F52C5200E11611 /* Drawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Drawing.m; sourceTree = "<group>"; };
 		FAC345F415F52C5700E11611 /* Drawing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Drawing.h; sourceTree = "<group>"; };
-		FAC345FF15F53EAD00E11611 /* movingBall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = movingBall.h; sourceTree = "<group>"; };
-		FAC3460015F53EAD00E11611 /* movingBall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = movingBall.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +60,6 @@
 		FABB2AC815F528F5003BE4C4 = {
 			isa = PBXGroup;
 			children = (
-				FABB2AF415F52AF0003BE4C4 /* CoreMotion.framework */,
 				FABB2ADD15F528F5003BE4C4 /* CoreMotionApp */,
 				FABB2AD615F528F5003BE4C4 /* Frameworks */,
 				FABB2AD415F528F5003BE4C4 /* Products */,
@@ -75,6 +77,7 @@
 		FABB2AD615F528F5003BE4C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FABB2AF415F52AF0003BE4C4 /* CoreMotion.framework */,
 				FABB2AD715F528F5003BE4C4 /* UIKit.framework */,
 				FABB2AD915F528F5003BE4C4 /* Foundation.framework */,
 				FABB2ADB15F528F5003BE4C4 /* CoreGraphics.framework */,
@@ -87,12 +90,14 @@
 			children = (
 				FAC345F415F52C5700E11611 /* Drawing.h */,
 				FAC345F115F52C5200E11611 /* Drawing.m */,
+				25CFDC5315F58550000E030B /* TargetView.h */,
+				25CFDC5415F58550000E030B /* TargetView.m */,
+				25CFDC5015F56E6C000E030B /* BallView.h */,
+				25CFDC5115F56E6C000E030B /* BallView.m */,
 				FABB2AE615F528F5003BE4C4 /* AppDelegate.h */,
 				FABB2AE715F528F5003BE4C4 /* AppDelegate.m */,
 				FABB2AE915F528F5003BE4C4 /* ViewController.h */,
 				FABB2AEA15F528F5003BE4C4 /* ViewController.m */,
-				FAC345FF15F53EAD00E11611 /* movingBall.h */,
-				FAC3460015F53EAD00E11611 /* movingBall.m */,
 				FABB2ADE15F528F5003BE4C4 /* Supporting Files */,
 			);
 			path = CoreMotionApp;
@@ -175,7 +180,8 @@
 				FABB2AE815F528F5003BE4C4 /* AppDelegate.m in Sources */,
 				FABB2AEB15F528F5003BE4C4 /* ViewController.m in Sources */,
 				FAC345F215F52C5200E11611 /* Drawing.m in Sources */,
-				FAC3460115F53EAD00E11611 /* movingBall.m in Sources */,
+				25CFDC5215F56E6C000E030B /* BallView.m in Sources */,
+				25CFDC5515F58550000E030B /* TargetView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

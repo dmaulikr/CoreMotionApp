@@ -19,8 +19,6 @@
     self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
     self.window.backgroundColor = [UIColor whiteColor];
     self.viewController.view.backgroundColor = [UIColor whiteColor];
-    CGRect viewFrame = CGRectMake(40, 100, 150, 150);
-
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;
