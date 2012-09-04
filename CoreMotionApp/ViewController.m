@@ -21,6 +21,7 @@
 @property (nonatomic, strong) BallView* ball;
 @property (nonatomic, strong) TargetView* target;
 @property (nonatomic) BOOL alreadyHasAlert;
+@property (nonatomic) BOOL isCaught;
 @end
 
 
@@ -38,7 +39,7 @@
        
     self.motionManager = [[CMMotionManager alloc] init];
     [self startMoving];
-    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(moveTarget) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:0.005 target:self selector:@selector(moveTarget) userInfo:nil repeats:YES];
 
     
     }
@@ -46,7 +47,6 @@
 -(void)getMotionDataWithPitch:(float) pitch withRoll:(float) roll {
     self.currentPitch = pitch;
     self.currentRoll = roll;
-    NSLog(@"Pitch is: %f , Roll is %f", self.currentPitch, self.currentRoll);
     [self moveBall];
 
 }
@@ -72,7 +72,6 @@
         self.ball.center = CGPointMake(self.ball.center.x+self.currentRoll*speedMultiplier, self.ball.center.y+self.currentPitch*speedMultiplier);
     }
     
-    NSLog(@"Ball Position is: %f, %f",self.ball.center.x, self.ball.center.y);
     [self.ball setNeedsDisplay];
     [self isBallInTarget];
 
@@ -86,6 +85,7 @@
         self.ball.center = CGPointMake(self.view.bounds.size.width/2.0, self.view.bounds.size.height/2.0);
         [self startMoving];
         self.alreadyHasAlert = NO;
+        self.isCaught = NO;
     }
    
 }
@@ -105,6 +105,7 @@
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Beep Beep!" message:@"You caught me..." delegate:self cancelButtonTitle:@"Play again" otherButtonTitles:nil];
             [alert show];
             self.alreadyHasAlert = YES;
+            self.isCaught = YES;
         }
         
     }
@@ -121,26 +122,30 @@
 
 -(void) moveTarget {
     
-    
-    float randomTranslateValueX = 0;
-    float randomTranslateValueY = 0;
-    int inXDirection = arc4random()%2;
-    if (inXDirection) {
-        //move random x direction
-        randomTranslateValueX = 50 - arc4random()%100;
-        randomTranslateValueY = 0;
-    } else {
-        //move random y direction
-        randomTranslateValueX = 0;
-        randomTranslateValueY = 50 - arc4random()%100;
+    if (!self.isCaught) {
+        float randomTranslateValueX = 0;
+        float randomTranslateValueY = 0;
+        int inXDirection = arc4random()%2;
+        int rand = arc4random()%100;
+        if (inXDirection) {
+            //move random x direction
+            randomTranslateValueX = 50 - rand;
+            randomTranslateValueY = 0;
+        } else {
+            //move random y direction
+            randomTranslateValueX = 0;
+            randomTranslateValueY = 50 - rand;
+        }
+        CGPoint translatePosition = CGPointMake(self.target.center.x + randomTranslateValueX, self.target.center.y +randomTranslateValueY);
+        if ((CGRectContainsPoint(self.view.frame, translatePosition)) && !CGRectContainsPoint(CGRectMake(self.ball.frame.origin.x - self.ball.frame.size.width, self.ball.frame.origin.y - self.ball.frame.size.height, self.ball.frame.size.width *2.0, self.ball.frame.size.height*2.0), translatePosition)) {
+            self.target.center = translatePosition;
+                        
+        } else {
+            //[self moveTarget];
+        }
+        [self.target setNeedsDisplay];
+
     }
-    CGPoint translatePosition = CGPointMake(self.target.center.x + randomTranslateValueX, self.target.center.y +randomTranslateValueY);
-    if ((CGRectContainsPoint(self.view.frame, translatePosition))) {
-        self.target.center = translatePosition;
-    } else {
-        //[self moveTarget];
-    }
-    [self.target setNeedsDisplay];
 }
 
 -(void) resetBall {
