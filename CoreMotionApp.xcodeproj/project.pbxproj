@@ -10,8 +10,8 @@
 		256357D815F6C28900CA812E /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 256357D715F6C28900CA812E /* GameKit.framework */; };
 		2563C87C15F5ECD600ECEE69 /* roadrunner.png in Resources */ = {isa = PBXBuildFile; fileRef = 2563C87B15F5ECD600ECEE69 /* roadrunner.png */; };
 		2563C87F15F6820C00ECEE69 /* coyote.png in Resources */ = {isa = PBXBuildFile; fileRef = 2563C87E15F6820C00ECEE69 /* coyote.png */; };
-		25CFDC5215F56E6C000E030B /* BallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CFDC5115F56E6C000E030B /* BallView.m */; };
-		25CFDC5515F58550000E030B /* TargetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CFDC5415F58550000E030B /* TargetView.m */; };
+		25CFDC5215F56E6C000E030B /* CoyoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CFDC5115F56E6C000E030B /* CoyoteView.m */; };
+		25CFDC5515F58550000E030B /* RoadrunnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CFDC5415F58550000E030B /* RoadrunnerView.m */; };
 		FABB2AD815F528F5003BE4C4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABB2AD715F528F5003BE4C4 /* UIKit.framework */; };
 		FABB2ADA15F528F5003BE4C4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABB2AD915F528F5003BE4C4 /* Foundation.framework */; };
 		FABB2ADC15F528F5003BE4C4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABB2ADB15F528F5003BE4C4 /* CoreGraphics.framework */; };
@@ -27,10 +27,10 @@
 		256357D715F6C28900CA812E /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		2563C87B15F5ECD600ECEE69 /* roadrunner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roadrunner.png; sourceTree = "<group>"; };
 		2563C87E15F6820C00ECEE69 /* coyote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coyote.png; sourceTree = "<group>"; };
-		25CFDC5015F56E6C000E030B /* BallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BallView.h; sourceTree = "<group>"; };
-		25CFDC5115F56E6C000E030B /* BallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BallView.m; sourceTree = "<group>"; };
-		25CFDC5315F58550000E030B /* TargetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TargetView.h; sourceTree = "<group>"; };
-		25CFDC5415F58550000E030B /* TargetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TargetView.m; sourceTree = "<group>"; };
+		25CFDC5015F56E6C000E030B /* CoyoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoyoteView.h; sourceTree = "<group>"; };
+		25CFDC5115F56E6C000E030B /* CoyoteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoyoteView.m; sourceTree = "<group>"; };
+		25CFDC5315F58550000E030B /* RoadrunnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoadrunnerView.h; sourceTree = "<group>"; };
+		25CFDC5415F58550000E030B /* RoadrunnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoadrunnerView.m; sourceTree = "<group>"; };
 		FABB2AD315F528F5003BE4C4 /* CoreMotionApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreMotionApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FABB2AD715F528F5003BE4C4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FABB2AD915F528F5003BE4C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -100,10 +100,10 @@
 				2563C87E15F6820C00ECEE69 /* coyote.png */,
 				FAC345F415F52C5700E11611 /* Drawing.h */,
 				FAC345F115F52C5200E11611 /* Drawing.m */,
-				25CFDC5315F58550000E030B /* TargetView.h */,
-				25CFDC5415F58550000E030B /* TargetView.m */,
-				25CFDC5015F56E6C000E030B /* BallView.h */,
-				25CFDC5115F56E6C000E030B /* BallView.m */,
+				25CFDC5315F58550000E030B /* RoadrunnerView.h */,
+				25CFDC5415F58550000E030B /* RoadrunnerView.m */,
+				25CFDC5015F56E6C000E030B /* CoyoteView.h */,
+				25CFDC5115F56E6C000E030B /* CoyoteView.m */,
 				FABB2AE615F528F5003BE4C4 /* AppDelegate.h */,
 				FABB2AE715F528F5003BE4C4 /* AppDelegate.m */,
 				FABB2AE915F528F5003BE4C4 /* ViewController.h */,
@@ -192,8 +192,8 @@
 				FABB2AE815F528F5003BE4C4 /* AppDelegate.m in Sources */,
 				FABB2AEB15F528F5003BE4C4 /* ViewController.m in Sources */,
 				FAC345F215F52C5200E11611 /* Drawing.m in Sources */,
-				25CFDC5215F56E6C000E030B /* BallView.m in Sources */,
-				25CFDC5515F58550000E030B /* TargetView.m in Sources */,
+				25CFDC5215F56E6C000E030B /* CoyoteView.m in Sources */,
+				25CFDC5515F58550000E030B /* RoadrunnerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

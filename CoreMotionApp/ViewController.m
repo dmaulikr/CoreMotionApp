@@ -8,8 +8,8 @@
 
 #import "ViewController.h"
 #import "Drawing.h"
-#import "BallView.h"
-#import "TargetView.h"
+#import "CoyoteView.h"
+#import "RoadrunnerView.h"
 #import <QuartzCore/QuartzCore.h>
 #import <CoreMotion/CoreMotion.h>
 #import <GameKit/GameKit.h>
@@ -19,8 +19,8 @@
 @property (nonatomic) CMMotionManager *motionManager;
 @property (nonatomic) float currentPitch;
 @property (nonatomic) float currentRoll;
-@property (nonatomic, strong) BallView* ball;
-@property (nonatomic, strong) TargetView* target;
+@property (nonatomic, strong) CoyoteView* firstCoyote;
+@property (nonatomic, strong) RoadrunnerView* roadrunner;
 @property (nonatomic) BOOL alreadyHasAlert;
 @property (nonatomic) BOOL isCaught;
 @property (nonatomic, strong) GKSession* session;
@@ -36,12 +36,12 @@
     self.view = view;
     [view setBackgroundColor:[UIColor whiteColor]];
     
-    [self makeRandomTarget];
-    [self resetBall];
+    [self makeRandomRoadrunner];
+    [self resetCoyote];
        
     self.motionManager = [[CMMotionManager alloc] init];
     [self startMoving];
-    [NSTimer scheduledTimerWithTimeInterval:0.005 target:self selector:@selector(moveTarget) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:0.005 target:self selector:@selector(moveRoadrunner) userInfo:nil repeats:YES];
 
     self.session = [[GKSession alloc] initWithSessionID:@"secretpassword" displayName:@"Ran" sessionMode:GKSessionModePeer];
     self.session.delegate = self;
@@ -51,32 +51,32 @@
 -(void)getMotionDataWithPitch:(float) pitch withRoll:(float) roll {
     self.currentPitch = pitch;
     self.currentRoll = roll;
-    [self moveBall];
+    [self moveCoyote];
 
 }
 
--(void)moveBall{
+-(void)moveCoyote{
     
     float speedMultiplier = 5.0;
     
     // NEED TO FIGURE OUT WHY THE BALL STILL ESCAPES AT EACH OF THE FOUR CORNERS //
-    if (((self.ball.center.x+self.ball.bounds.size.width/2.0 >= self.view.bounds.size.width) && self.currentRoll >0) || ((self.ball.center.x-self.ball.bounds.size.width/2.0 <= self.view.bounds.origin.x) && self.currentRoll <0)) {
-        if (((self.ball.center.y+self.ball.bounds.size.height/2.0 >= self.view.bounds.size.height) && self.currentPitch >0) || ((self.ball.center.y-self.ball.bounds.size.height/2.0 <= self.view.bounds.origin.y) && self.currentPitch <0)) {
-            self.ball.center = CGPointMake(self.ball.center.x, self.ball.center.y);
+    if (((self.firstCoyote.center.x+self.firstCoyote.bounds.size.width/2.0 >= self.view.bounds.size.width) && self.currentRoll >0) || ((self.firstCoyote.center.x-self.firstCoyote.bounds.size.width/2.0 <= self.view.bounds.origin.x) && self.currentRoll <0)) {
+        if (((self.firstCoyote.center.y+self.firstCoyote.bounds.size.height/2.0 >= self.view.bounds.size.height) && self.currentPitch >0) || ((self.firstCoyote.center.y-self.firstCoyote.bounds.size.height/2.0 <= self.view.bounds.origin.y) && self.currentPitch <0)) {
+            self.firstCoyote.center = CGPointMake(self.firstCoyote.center.x, self.firstCoyote.center.y);
         } else {
-        self.ball.center = CGPointMake(self.ball.center.x, self.ball.center.y+self.currentPitch*speedMultiplier);
+        self.firstCoyote.center = CGPointMake(self.firstCoyote.center.x, self.firstCoyote.center.y+self.currentPitch*speedMultiplier);
         }
-    } else if (((self.ball.center.y+self.ball.bounds.size.height/2.0 >= self.view.bounds.size.height) && self.currentPitch >0) || ((self.ball.center.y-self.ball.bounds.size.height/2.0 <= self.view.bounds.origin.y) && self.currentPitch <0)) {
-        if (((self.ball.center.x+self.ball.bounds.size.width/2.0 >= self.view.bounds.size.width) && self.currentRoll >0) || ((self.ball.center.x-self.ball.bounds.size.width/2.0 <= self.view.bounds.origin.x) && self.currentRoll <0)) {
-                self.ball.center = CGPointMake(self.ball.center.x, self.ball.center.y);
+    } else if (((self.firstCoyote.center.y+self.firstCoyote.bounds.size.height/2.0 >= self.view.bounds.size.height) && self.currentPitch >0) || ((self.firstCoyote.center.y-self.firstCoyote.bounds.size.height/2.0 <= self.view.bounds.origin.y) && self.currentPitch <0)) {
+        if (((self.firstCoyote.center.x+self.firstCoyote.bounds.size.width/2.0 >= self.view.bounds.size.width) && self.currentRoll >0) || ((self.firstCoyote.center.x-self.firstCoyote.bounds.size.width/2.0 <= self.view.bounds.origin.x) && self.currentRoll <0)) {
+                self.firstCoyote.center = CGPointMake(self.firstCoyote.center.x, self.firstCoyote.center.y);
         } else {
-        self.ball.center = CGPointMake(self.ball.center.x+self.currentRoll*speedMultiplier, self.ball.center.y);
+        self.firstCoyote.center = CGPointMake(self.firstCoyote.center.x+self.currentRoll*speedMultiplier, self.firstCoyote.center.y);
         }
     } else {
-        self.ball.center = CGPointMake(self.ball.center.x+self.currentRoll*speedMultiplier, self.ball.center.y+self.currentPitch*speedMultiplier);
+        self.firstCoyote.center = CGPointMake(self.firstCoyote.center.x+self.currentRoll*speedMultiplier, self.firstCoyote.center.y+self.currentPitch*speedMultiplier);
     }
-    [self.ball setNeedsDisplay];
-    [self isBallInTarget];
+    [self.firstCoyote setNeedsDisplay];
+    [self didCoyoteCatchRoadrunner];
 
 }
 
@@ -84,8 +84,8 @@
 {
     if (buttonIndex == 0)
     {
-        self.target.center = CGPointMake(arc4random() % ((int) self.view.bounds.size.width - (int) self.target.bounds.size.width/2), arc4random() % ((int) self.view.bounds.size.height-(int) self.target.bounds.size.height/2));
-        self.ball.center = CGPointMake(self.view.bounds.size.width/2.0, self.view.bounds.size.height/2.0);
+        self.roadrunner.center = CGPointMake(arc4random() % ((int) self.view.bounds.size.width - (int) self.roadrunner.bounds.size.width/2), arc4random() % ((int) self.view.bounds.size.height-(int) self.roadrunner.bounds.size.height/2));
+        self.firstCoyote.center = CGPointMake(self.view.bounds.size.width/2.0, self.view.bounds.size.height/2.0);
         [self startMoving];
         self.alreadyHasAlert = NO;
         self.isCaught = NO;
@@ -101,8 +101,8 @@
 
 }
 
--(void) isBallInTarget {
-    if (CGRectContainsPoint(self.ball.frame, self.target.center)) {
+-(void) didCoyoteCatchRoadrunner {
+    if (CGRectContainsPoint(self.firstCoyote.frame, self.roadrunner.center)) {
         [self.motionManager stopDeviceMotionUpdates];
         if (!self.alreadyHasAlert) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Beep Beep!" message:@"You caught me..." delegate:self cancelButtonTitle:@"Play again" otherButtonTitles:nil];
@@ -114,16 +114,16 @@
     }
 }
 
--(void) makeRandomTarget {
+-(void) makeRandomRoadrunner {
     CGRect targetRect = CGRectMake(arc4random() % ((int) self.view.bounds.size.width - 75), arc4random() % ((int) self.view.bounds.size.height - 75), 75.0, 75.0);
-    self.target = [[TargetView alloc] initWithFrame: targetRect];
-    [self.view addSubview:self.target];
-    [self.target setNeedsDisplay];
+    self.roadrunner = [[RoadrunnerView alloc] initWithFrame: targetRect];
+    [self.view addSubview:self.roadrunner];
+    [self.roadrunner setNeedsDisplay];
     
     
 }
 
--(void) moveTarget {
+-(void) moveRoadrunner {
     
     if (!self.isCaught) {
         float randomTranslateValueX = 0;
@@ -139,23 +139,23 @@
             randomTranslateValueX = 0;
             randomTranslateValueY = 50 - rand;
         }
-        CGPoint translatePosition = CGPointMake(self.target.center.x + randomTranslateValueX, self.target.center.y +randomTranslateValueY);
-        if ((CGRectContainsPoint(self.view.frame, translatePosition)) && !CGRectContainsPoint(CGRectMake(self.ball.frame.origin.x - self.ball.frame.size.width, self.ball.frame.origin.y - self.ball.frame.size.height, self.ball.frame.size.width *2.0, self.ball.frame.size.height*2.0), translatePosition)) {
-            self.target.center = translatePosition;
+        CGPoint translatePosition = CGPointMake(self.roadrunner.center.x + randomTranslateValueX, self.roadrunner.center.y +randomTranslateValueY);
+        if ((CGRectContainsPoint(self.view.frame, translatePosition)) && !CGRectContainsPoint(CGRectMake(self.firstCoyote.frame.origin.x - self.firstCoyote.frame.size.width, self.firstCoyote.frame.origin.y - self.firstCoyote.frame.size.height, self.firstCoyote.frame.size.width *2.0, self.firstCoyote.frame.size.height*2.0), translatePosition)) {
+            self.roadrunner.center = translatePosition;
                         
         } else {
             //[self moveTarget];
         }
-        [self.target setNeedsDisplay];
+        [self.roadrunner setNeedsDisplay];
 
     }
 }
 
--(void) resetBall {
+-(void) resetCoyote {
     
-    self.ball = [[BallView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0-37.5, self.view.bounds.size.height/2.0-37.5, 75.0, 75.0)];
-    [self.view addSubview:self.ball];
-    [self.ball setNeedsDisplay];
+    self.firstCoyote = [[CoyoteView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0-37.5, self.view.bounds.size.height/2.0-37.5, 75.0, 75.0)];
+    [self.view addSubview:self.firstCoyote];
+    [self.firstCoyote setNeedsDisplay];
 
 }
 

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TargetView : UIView
+@interface RoadrunnerView : UIView
 
 @end
