@@ -12,9 +12,10 @@
 #import "TargetView.h"
 #import <QuartzCore/QuartzCore.h>
 #import <CoreMotion/CoreMotion.h>
+#import <GameKit/GameKit.h>
 
 
-@interface ViewController () 
+@interface ViewController () <GKSessionDelegate>
 @property (nonatomic) CMMotionManager *motionManager;
 @property (nonatomic) float currentPitch;
 @property (nonatomic) float currentRoll;
@@ -22,6 +23,7 @@
 @property (nonatomic, strong) TargetView* target;
 @property (nonatomic) BOOL alreadyHasAlert;
 @property (nonatomic) BOOL isCaught;
+@property (nonatomic, strong) GKSession* session;
 @end
 
 
@@ -41,7 +43,9 @@
     [self startMoving];
     [NSTimer scheduledTimerWithTimeInterval:0.005 target:self selector:@selector(moveTarget) userInfo:nil repeats:YES];
 
-    
+    self.session = [[GKSession alloc] initWithSessionID:@"secretpassword" displayName:@"Ran" sessionMode:GKSessionModePeer];
+    self.session.delegate = self;
+    self.session.available = YES;
     }
 
 -(void)getMotionDataWithPitch:(float) pitch withRoll:(float) roll {
@@ -71,7 +75,6 @@
     } else {
         self.ball.center = CGPointMake(self.ball.center.x+self.currentRoll*speedMultiplier, self.ball.center.y+self.currentPitch*speedMultiplier);
     }
-    
     [self.ball setNeedsDisplay];
     [self isBallInTarget];
 
@@ -167,6 +170,26 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
+
+-(void)session:(GKSession *)session peer:(NSString *)peerID didChangeState:(GKPeerConnectionState)state {
+    if (state == GKPeerStateAvailable) {
+        [session connectToPeer:peerID withTimeout:3];
+    } else if (state == GKPeerStateConnected ) {
+        session.available = NO;
+    }
+}
+
+-(void)session:(GKSession *)session didReceiveConnectionRequestFromPeer:(NSString *)peerID {
+    [self.session acceptConnectionFromPeer:peerID error:nil];
+    session.available = NO;
+    
+}
+
+-(void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
+    NSString* message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    [[[UIAlertView alloc] initWithTitle:peer message:message delegate:self cancelButtonTitle:@"Accept" otherButtonTitles:nil] show];
+}
+
 
 
 @end
