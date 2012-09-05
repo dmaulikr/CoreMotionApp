@@ -186,6 +186,7 @@
 }
 
 -(void)session:(GKSession *)session didReceiveConnectionRequestFromPeer:(NSString *)peerID {
+    [[[UIAlertView alloc] initWithTitle:@"Ready to play?" message:@"coyote challenger found!" delegate:self cancelButtonTitle:@"Accept" otherButtonTitles:nil] show];
     [self.session acceptConnectionFromPeer:peerID error:nil];
     session.available = NO;
     
@@ -200,6 +201,7 @@
 
 
 -(void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
+    NSLog(@"received data: %@", data);
     self.secondCoyote.center = CGPointFromString([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
 }
 
