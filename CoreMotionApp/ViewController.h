@@ -10,5 +10,5 @@
 
 @interface ViewController : UIViewController {    
 }
-
+@property (nonatomic) BOOL isSinglePlayer;
 @end

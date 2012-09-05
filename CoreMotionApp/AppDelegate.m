@@ -7,8 +7,8 @@
 //
 
 #import "AppDelegate.h"
-
 #import "ViewController.h"
+#import "StartScreenViewController.h"
 #import "Drawing.h"
 
 @implementation AppDelegate
@@ -16,10 +16,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
     self.window.backgroundColor = [UIColor whiteColor];
-    self.viewController.view.backgroundColor = [UIColor whiteColor];
-    self.window.rootViewController = self.viewController;
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+
+    StartScreenViewController *startScreen = [StartScreenViewController new];
+//    self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
+//    self.viewController.view.backgroundColor = [UIColor whiteColor];
+    self.window.rootViewController = startScreen;
     [self.window makeKeyAndVisible];
     return YES;
 }

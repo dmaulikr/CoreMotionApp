@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		256357D815F6C28900CA812E /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 256357D715F6C28900CA812E /* GameKit.framework */; };
+		256357EB15F7D73400CA812E /* StartScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 256357E915F7D73400CA812E /* StartScreenViewController.m */; };
+		256357EC15F7D73400CA812E /* StartScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 256357EA15F7D73400CA812E /* StartScreenViewController.xib */; };
+		256357EE15F7DCC200CA812E /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 256357ED15F7DCC200CA812E /* background.jpg */; };
 		2563C87C15F5ECD600ECEE69 /* roadrunner.png in Resources */ = {isa = PBXBuildFile; fileRef = 2563C87B15F5ECD600ECEE69 /* roadrunner.png */; };
 		2563C87F15F6820C00ECEE69 /* coyote.png in Resources */ = {isa = PBXBuildFile; fileRef = 2563C87E15F6820C00ECEE69 /* coyote.png */; };
 		25CFDC5215F56E6C000E030B /* CoyoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CFDC5115F56E6C000E030B /* CoyoteView.m */; };
@@ -25,6 +28,10 @@
 
 /* Begin PBXFileReference section */
 		256357D715F6C28900CA812E /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		256357E815F7D73400CA812E /* StartScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartScreenViewController.h; sourceTree = "<group>"; };
+		256357E915F7D73400CA812E /* StartScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartScreenViewController.m; sourceTree = "<group>"; };
+		256357EA15F7D73400CA812E /* StartScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StartScreenViewController.xib; sourceTree = "<group>"; };
+		256357ED15F7DCC200CA812E /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
 		2563C87B15F5ECD600ECEE69 /* roadrunner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roadrunner.png; sourceTree = "<group>"; };
 		2563C87E15F6820C00ECEE69 /* coyote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coyote.png; sourceTree = "<group>"; };
 		25CFDC5015F56E6C000E030B /* CoyoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoyoteView.h; sourceTree = "<group>"; };
@@ -97,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				2563C87B15F5ECD600ECEE69 /* roadrunner.png */,
+				256357ED15F7DCC200CA812E /* background.jpg */,
 				2563C87E15F6820C00ECEE69 /* coyote.png */,
 				FAC345F415F52C5700E11611 /* Drawing.h */,
 				FAC345F115F52C5200E11611 /* Drawing.m */,
@@ -108,6 +116,9 @@
 				FABB2AE715F528F5003BE4C4 /* AppDelegate.m */,
 				FABB2AE915F528F5003BE4C4 /* ViewController.h */,
 				FABB2AEA15F528F5003BE4C4 /* ViewController.m */,
+				256357E815F7D73400CA812E /* StartScreenViewController.h */,
+				256357E915F7D73400CA812E /* StartScreenViewController.m */,
+				256357EA15F7D73400CA812E /* StartScreenViewController.xib */,
 				FABB2ADE15F528F5003BE4C4 /* Supporting Files */,
 			);
 			path = CoreMotionApp;
@@ -178,6 +189,8 @@
 				FABB2AE215F528F5003BE4C4 /* InfoPlist.strings in Resources */,
 				2563C87C15F5ECD600ECEE69 /* roadrunner.png in Resources */,
 				2563C87F15F6820C00ECEE69 /* coyote.png in Resources */,
+				256357EC15F7D73400CA812E /* StartScreenViewController.xib in Resources */,
+				256357EE15F7DCC200CA812E /* background.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +207,7 @@
 				FAC345F215F52C5200E11611 /* Drawing.m in Sources */,
 				25CFDC5215F56E6C000E030B /* CoyoteView.m in Sources */,
 				25CFDC5515F58550000E030B /* RoadrunnerView.m in Sources */,
+				256357EB15F7D73400CA812E /* StartScreenViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -39,16 +39,19 @@
     
     [self makeRandomRoadrunner];
     [self resetCoyote];
-    [self resetSecondCoyote];
+    if (!self.isSinglePlayer) {
+        [self resetSecondCoyote];
+        self.session = [[GKSession alloc] initWithSessionID:@"secretpassword" displayName:@"Ran" sessionMode:GKSessionModePeer];
+        [self.session setDataReceiveHandler:self withContext:nil];
+        self.session.delegate = self;
+        self.session.available = YES;
+    }
        
     self.motionManager = [[CMMotionManager alloc] init];
     [self startMoving];
     [NSTimer scheduledTimerWithTimeInterval:0.005 target:self selector:@selector(moveRoadrunner) userInfo:nil repeats:YES];
 
-    self.session = [[GKSession alloc] initWithSessionID:@"secretpassword" displayName:@"Ran" sessionMode:GKSessionModePeer];
-    [self.session setDataReceiveHandler:self withContext:nil]; 
-    self.session.delegate = self;
-    self.session.available = YES;
+   
     }
 
 -(void)getMotionDataWithPitch:(float) pitch withRoll:(float) roll {
@@ -201,8 +204,11 @@
 }
 
 -(void)sendMessage {
+    NSString *roadrunnerPosition = NSStringFromCGPoint(self.roadrunner.center);
     NSString *coyotePosition = NSStringFromCGPoint(self.coyote.center);
-    NSData* payload = [coyotePosition dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray *positions = [[NSArray alloc] initWithObjects:roadrunnerPosition, coyotePosition, nil];
+    NSData *payload = [NSKeyedArchiver archivedDataWithRootObject:positions];
+    //NSData* payload = [coyotePosition dataUsingEncoding:NSUTF8StringEncoding];
     [self.session sendDataToAllPeers:payload withDataMode:GKSendDataReliable error:nil];
     
 }
@@ -210,8 +216,15 @@
 
 -(void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
     NSLog(@"received data: %@", data);
-    self.secondCoyote.center = CGPointFromString([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    NSArray *positions = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    self.roadrunner.center = CGPointFromString([[NSString alloc] initWithFormat:[positions objectAtIndex:0]]);
+    if (!self.isSinglePlayer) {
+        self.secondCoyote.center = CGPointFromString([[NSString alloc] initWithFormat:[positions objectAtIndex:1]]);
+    }
 }
 
-
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+//{
+//    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
+//}
 @end
