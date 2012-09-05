@@ -46,13 +46,26 @@
         self.session.delegate = self;
         self.session.available = YES;
     }
-       
+  
     self.motionManager = [[CMMotionManager alloc] init];
     [self startMoving];
     [NSTimer scheduledTimerWithTimeInterval:0.005 target:self selector:@selector(moveRoadrunner) userInfo:nil repeats:YES];
-
    
     }
+
+-(void) viewDidLoad {
+    UIButton *close = [UIButton buttonWithType:UIButtonTypeCustom];
+    [close setFrame:CGRectMake(self.view.bounds.size.width - 50, 10, 40, 40)];
+    [close setBackgroundImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
+    close.backgroundColor = [UIColor clearColor];
+    [close addTarget:self action:@selector(closeButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:close];
+    
+}
+
+-(void)closeButtonPressed {
+    [self dismissModalViewControllerAnimated:YES];
+}
 
 -(void)getMotionDataWithPitch:(float) pitch withRoll:(float) roll {
     self.currentPitch = pitch;
@@ -64,23 +77,48 @@
 -(void)moveCoyote{
     
     float speedMultiplier = 5.0;
+    // IN LANDSCAPE MODE //
+    CGFloat viewWidth = self.view.bounds.size.width;
+    CGFloat viewHeight = self.view.bounds.size.height;
+    CGFloat coyoteWidth = self.coyote.bounds.size.width;
+    CGFloat coyoteHeight = self.coyote.bounds.size.height;
+    CGFloat coyoteX = self.coyote.center.x;
+    CGFloat coyoteY = self.coyote.center.y;
+    CGFloat pitch = self.currentPitch;
+    CGFloat roll = self.currentRoll;
     
-    // NEED TO FIGURE OUT WHY THE BALL STILL ESCAPES AT EACH OF THE FOUR CORNERS //
-    if (((self.coyote.center.x+self.coyote.bounds.size.width/2.0 >= self.view.bounds.size.width) && self.currentRoll >0) || ((self.coyote.center.x-self.coyote.bounds.size.width/2.0 <= self.view.bounds.origin.x) && self.currentRoll <0)) {
-        if (((self.coyote.center.y+self.coyote.bounds.size.height/2.0 >= self.view.bounds.size.height) && self.currentPitch >0) || ((self.coyote.center.y-self.coyote.bounds.size.height/2.0 <= self.view.bounds.origin.y) && self.currentPitch <0)) {
-            self.coyote.center = CGPointMake(self.coyote.center.x, self.coyote.center.y);
+    if (((coyoteX+coyoteWidth/2.0 >= viewWidth) && pitch <0) || ((coyoteX-coyoteWidth/2.0 <= self.view.bounds.origin.x) && pitch >0)) {
+        if (((coyoteY+coyoteHeight/2.0 >= viewHeight) && roll >0) || ((coyoteY-coyoteHeight/2.0 <= self.view.bounds.origin.y) && roll <0)) {
+            self.coyote.center = CGPointMake(coyoteX, coyoteY);
         } else {
-        self.coyote.center = CGPointMake(self.coyote.center.x, self.coyote.center.y+self.currentPitch*speedMultiplier);
+            self.coyote.center = CGPointMake(coyoteX, coyoteY+roll*speedMultiplier);
         }
-    } else if (((self.coyote.center.y+self.coyote.bounds.size.height/2.0 >= self.view.bounds.size.height) && self.currentPitch >0) || ((self.coyote.center.y-self.coyote.bounds.size.height/2.0 <= self.view.bounds.origin.y) && self.currentPitch <0)) {
-        if (((self.coyote.center.x+self.coyote.bounds.size.width/2.0 >= self.view.bounds.size.width) && self.currentRoll >0) || ((self.coyote.center.x-self.coyote.bounds.size.width/2.0 <= self.view.bounds.origin.x) && self.currentRoll <0)) {
-                self.coyote.center = CGPointMake(self.coyote.center.x, self.coyote.center.y);
+    } else if (((coyoteY+coyoteHeight/2.0 >= viewHeight) && roll >0) || ((coyoteY-coyoteHeight/2.0 <= self.view.bounds.origin.y) && roll <0)) {
+        if (((coyoteX+coyoteWidth/2.0 >= viewWidth) && pitch <0) || ((coyoteX-coyoteWidth/2.0 <= self.view.bounds.origin.x) && pitch >0)) {
+            self.coyote.center = CGPointMake(coyoteX, coyoteY);
         } else {
-        self.coyote.center = CGPointMake(self.coyote.center.x+self.currentRoll*speedMultiplier, self.coyote.center.y);
+            self.coyote.center = CGPointMake(coyoteX-pitch*speedMultiplier, coyoteY);
         }
     } else {
-        self.coyote.center = CGPointMake(self.coyote.center.x+self.currentRoll*speedMultiplier, self.coyote.center.y+self.currentPitch*speedMultiplier);
+        self.coyote.center = CGPointMake(coyoteX-pitch*speedMultiplier, coyoteY+roll*speedMultiplier);
     }
+    
+    // IN PORTRAIT MODE //
+//    if (((coyoteX+coyoteWidth/2.0 >= viewWidth) && roll >0) || ((coyoteX-coyoteWidth/2.0 <= self.view.bounds.origin.x) && roll <0)) {
+//        if (((coyoteY+coyoteHeight/2.0 >= viewHeight) && pitch >0) || ((coyoteY-coyoteHeight/2.0 <= self.view.bounds.origin.y) && pitch <0)) {
+//            self.coyote.center = CGPointMake(coyoteX, coyoteY);
+//        } else {
+//        self.coyote.center = CGPointMake(coyoteX, coyoteY+pitch*speedMultiplier);
+//        }
+//    } else if (((coyoteY+coyoteHeight/2.0 >= viewHeight) && pitch >0) || ((coyoteY-coyoteHeight/2.0 <= self.view.bounds.origin.y) && pitch <0)) {
+//        if (((coyoteX+coyoteWidth/2.0 >= viewWidth) && roll >0) || ((coyoteX-coyoteWidth/2.0 <= self.view.bounds.origin.x) && roll <0)) {
+//                self.coyote.center = CGPointMake(coyoteX, coyoteY);
+//        } else {
+//        self.coyote.center = CGPointMake(coyoteX+roll*speedMultiplier, coyoteY);
+//        }
+//    } else {
+//        self.coyote.center = CGPointMake(coyoteX+roll*speedMultiplier, coyoteY+pitch*speedMultiplier);
+//    }
     [self.coyote setNeedsDisplay];
     [self didCoyoteCatchRoadrunner];
 
@@ -169,12 +207,6 @@
     [self.secondCoyote setNeedsDisplay];
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-}
-
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -204,11 +236,11 @@
 }
 
 -(void)sendMessage {
-    NSString *roadrunnerPosition = NSStringFromCGPoint(self.roadrunner.center);
+    //NSString *roadrunnerPosition = NSStringFromCGPoint(self.roadrunner.center);
     NSString *coyotePosition = NSStringFromCGPoint(self.coyote.center);
-    NSArray *positions = [[NSArray alloc] initWithObjects:roadrunnerPosition, coyotePosition, nil];
-    NSData *payload = [NSKeyedArchiver archivedDataWithRootObject:positions];
-    //NSData* payload = [coyotePosition dataUsingEncoding:NSUTF8StringEncoding];
+    //NSArray *positions = [[NSArray alloc] initWithObjects:roadrunnerPosition, coyotePosition, nil];
+    //NSData *payload = [NSKeyedArchiver archivedDataWithRootObject:positions];
+    NSData* payload = [coyotePosition dataUsingEncoding:NSUTF8StringEncoding];
     [self.session sendDataToAllPeers:payload withDataMode:GKSendDataReliable error:nil];
     
 }
@@ -216,15 +248,17 @@
 
 -(void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
     NSLog(@"received data: %@", data);
-    NSArray *positions = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    self.roadrunner.center = CGPointFromString([[NSString alloc] initWithFormat:[positions objectAtIndex:0]]);
-    if (!self.isSinglePlayer) {
-        self.secondCoyote.center = CGPointFromString([[NSString alloc] initWithFormat:[positions objectAtIndex:1]]);
-    }
+    //NSArray *positions = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    //self.roadrunner.center = CGPointFromString([[NSString alloc] initWithFormat:[positions objectAtIndex:0]]);
+    //if (!self.isSinglePlayer) {
+      //  self.secondCoyote.center = CGPointFromString([[NSString alloc] initWithFormat:[positions objectAtIndex:1]]);
+    //}
+    self.secondCoyote.center = CGPointFromString([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    
 }
 
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-//{
-//    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
-//}
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
+}
 @end
