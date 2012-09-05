@@ -19,7 +19,8 @@
 @property (nonatomic) CMMotionManager *motionManager;
 @property (nonatomic) float currentPitch;
 @property (nonatomic) float currentRoll;
-@property (nonatomic, strong) CoyoteView* firstCoyote;
+@property (nonatomic, strong) CoyoteView* coyote;
+@property (nonatomic, strong) CoyoteView* secondCoyote;
 @property (nonatomic, strong) RoadrunnerView* roadrunner;
 @property (nonatomic) BOOL alreadyHasAlert;
 @property (nonatomic) BOOL isCaught;
@@ -38,6 +39,7 @@
     
     [self makeRandomRoadrunner];
     [self resetCoyote];
+    [self resetSecondCoyote];
        
     self.motionManager = [[CMMotionManager alloc] init];
     [self startMoving];
@@ -52,7 +54,7 @@
     self.currentPitch = pitch;
     self.currentRoll = roll;
     [self moveCoyote];
-
+    [self sendMessage];
 }
 
 -(void)moveCoyote{
@@ -60,22 +62,22 @@
     float speedMultiplier = 5.0;
     
     // NEED TO FIGURE OUT WHY THE BALL STILL ESCAPES AT EACH OF THE FOUR CORNERS //
-    if (((self.firstCoyote.center.x+self.firstCoyote.bounds.size.width/2.0 >= self.view.bounds.size.width) && self.currentRoll >0) || ((self.firstCoyote.center.x-self.firstCoyote.bounds.size.width/2.0 <= self.view.bounds.origin.x) && self.currentRoll <0)) {
-        if (((self.firstCoyote.center.y+self.firstCoyote.bounds.size.height/2.0 >= self.view.bounds.size.height) && self.currentPitch >0) || ((self.firstCoyote.center.y-self.firstCoyote.bounds.size.height/2.0 <= self.view.bounds.origin.y) && self.currentPitch <0)) {
-            self.firstCoyote.center = CGPointMake(self.firstCoyote.center.x, self.firstCoyote.center.y);
+    if (((self.coyote.center.x+self.coyote.bounds.size.width/2.0 >= self.view.bounds.size.width) && self.currentRoll >0) || ((self.coyote.center.x-self.coyote.bounds.size.width/2.0 <= self.view.bounds.origin.x) && self.currentRoll <0)) {
+        if (((self.coyote.center.y+self.coyote.bounds.size.height/2.0 >= self.view.bounds.size.height) && self.currentPitch >0) || ((self.coyote.center.y-self.coyote.bounds.size.height/2.0 <= self.view.bounds.origin.y) && self.currentPitch <0)) {
+            self.coyote.center = CGPointMake(self.coyote.center.x, self.coyote.center.y);
         } else {
-        self.firstCoyote.center = CGPointMake(self.firstCoyote.center.x, self.firstCoyote.center.y+self.currentPitch*speedMultiplier);
+        self.coyote.center = CGPointMake(self.coyote.center.x, self.coyote.center.y+self.currentPitch*speedMultiplier);
         }
-    } else if (((self.firstCoyote.center.y+self.firstCoyote.bounds.size.height/2.0 >= self.view.bounds.size.height) && self.currentPitch >0) || ((self.firstCoyote.center.y-self.firstCoyote.bounds.size.height/2.0 <= self.view.bounds.origin.y) && self.currentPitch <0)) {
-        if (((self.firstCoyote.center.x+self.firstCoyote.bounds.size.width/2.0 >= self.view.bounds.size.width) && self.currentRoll >0) || ((self.firstCoyote.center.x-self.firstCoyote.bounds.size.width/2.0 <= self.view.bounds.origin.x) && self.currentRoll <0)) {
-                self.firstCoyote.center = CGPointMake(self.firstCoyote.center.x, self.firstCoyote.center.y);
+    } else if (((self.coyote.center.y+self.coyote.bounds.size.height/2.0 >= self.view.bounds.size.height) && self.currentPitch >0) || ((self.coyote.center.y-self.coyote.bounds.size.height/2.0 <= self.view.bounds.origin.y) && self.currentPitch <0)) {
+        if (((self.coyote.center.x+self.coyote.bounds.size.width/2.0 >= self.view.bounds.size.width) && self.currentRoll >0) || ((self.coyote.center.x-self.coyote.bounds.size.width/2.0 <= self.view.bounds.origin.x) && self.currentRoll <0)) {
+                self.coyote.center = CGPointMake(self.coyote.center.x, self.coyote.center.y);
         } else {
-        self.firstCoyote.center = CGPointMake(self.firstCoyote.center.x+self.currentRoll*speedMultiplier, self.firstCoyote.center.y);
+        self.coyote.center = CGPointMake(self.coyote.center.x+self.currentRoll*speedMultiplier, self.coyote.center.y);
         }
     } else {
-        self.firstCoyote.center = CGPointMake(self.firstCoyote.center.x+self.currentRoll*speedMultiplier, self.firstCoyote.center.y+self.currentPitch*speedMultiplier);
+        self.coyote.center = CGPointMake(self.coyote.center.x+self.currentRoll*speedMultiplier, self.coyote.center.y+self.currentPitch*speedMultiplier);
     }
-    [self.firstCoyote setNeedsDisplay];
+    [self.coyote setNeedsDisplay];
     [self didCoyoteCatchRoadrunner];
 
 }
@@ -85,7 +87,7 @@
     if (buttonIndex == 0)
     {
         self.roadrunner.center = CGPointMake(arc4random() % ((int) self.view.bounds.size.width - (int) self.roadrunner.bounds.size.width/2), arc4random() % ((int) self.view.bounds.size.height-(int) self.roadrunner.bounds.size.height/2));
-        self.firstCoyote.center = CGPointMake(self.view.bounds.size.width/2.0, self.view.bounds.size.height/2.0);
+        self.coyote.center = CGPointMake(self.view.bounds.size.width/2.0, self.view.bounds.size.height/2.0);
         [self startMoving];
         self.alreadyHasAlert = NO;
         self.isCaught = NO;
@@ -102,7 +104,7 @@
 }
 
 -(void) didCoyoteCatchRoadrunner {
-    if (CGRectContainsPoint(self.firstCoyote.frame, self.roadrunner.center)) {
+    if (CGRectContainsPoint(self.coyote.frame, self.roadrunner.center)) {
         [self.motionManager stopDeviceMotionUpdates];
         if (!self.alreadyHasAlert) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Beep Beep!" message:@"You caught me..." delegate:self cancelButtonTitle:@"Play again" otherButtonTitles:nil];
@@ -140,7 +142,7 @@
             randomTranslateValueY = 50 - rand;
         }
         CGPoint translatePosition = CGPointMake(self.roadrunner.center.x + randomTranslateValueX, self.roadrunner.center.y +randomTranslateValueY);
-        if ((CGRectContainsPoint(self.view.frame, translatePosition)) && !CGRectContainsPoint(CGRectMake(self.firstCoyote.frame.origin.x - self.firstCoyote.frame.size.width, self.firstCoyote.frame.origin.y - self.firstCoyote.frame.size.height, self.firstCoyote.frame.size.width *2.0, self.firstCoyote.frame.size.height*2.0), translatePosition)) {
+        if ((CGRectContainsPoint(self.view.frame, translatePosition)) && !CGRectContainsPoint(CGRectMake(self.coyote.frame.origin.x - self.coyote.frame.size.width, self.coyote.frame.origin.y - self.coyote.frame.size.height, self.coyote.frame.size.width *2.0, self.coyote.frame.size.height*2.0), translatePosition)) {
             self.roadrunner.center = translatePosition;
                         
         } else {
@@ -151,12 +153,16 @@
     }
 }
 
--(void) resetCoyote {
-    
-    self.firstCoyote = [[CoyoteView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0-37.5, self.view.bounds.size.height/2.0-37.5, 75.0, 75.0)];
-    [self.view addSubview:self.firstCoyote];
-    [self.firstCoyote setNeedsDisplay];
+-(void) resetCoyote {    
+    self.coyote = [[CoyoteView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/4.0*3.0-37.5, self.view.bounds.size.height/4.0-37.5, 75.0, 75.0)];
+    [self.view addSubview:self.coyote];
+    [self.coyote setNeedsDisplay];
+}
 
+-(void) resetSecondCoyote {
+    self.secondCoyote = [[CoyoteView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/4.0-37.5, self.view.bounds.size.height/4.0-37.5, 75.0, 75.0)];
+    [self.view addSubview:self.secondCoyote];
+    [self.secondCoyote setNeedsDisplay];
 }
 
 - (void)viewDidLoad
@@ -185,11 +191,17 @@
     
 }
 
--(void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
-    NSString* message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    [[[UIAlertView alloc] initWithTitle:peer message:message delegate:self cancelButtonTitle:@"Accept" otherButtonTitles:nil] show];
+-(void)sendMessage {
+    NSString *coyotePosition = NSStringFromCGPoint(self.coyote.center);
+    NSData* payload = [coyotePosition dataUsingEncoding:NSUTF8StringEncoding];
+    [self.session sendDataToAllPeers:payload withDataMode:GKSendDataReliable error:nil];
+    
 }
 
+
+-(void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
+    self.secondCoyote.center = CGPointFromString([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+}
 
 
 @end
