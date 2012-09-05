@@ -108,7 +108,7 @@
     if (CGRectContainsPoint(self.coyote.frame, self.roadrunner.center)) {
         [self.motionManager stopDeviceMotionUpdates];
         if (!self.alreadyHasAlert) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Beep Beep!" message:@"You caught me..." delegate:self cancelButtonTitle:@"Play again" otherButtonTitles:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Meep Meep!" message:@"You caught me..." delegate:self cancelButtonTitle:@"Play again" otherButtonTitles:nil];
             [alert show];
             self.alreadyHasAlert = YES;
             self.isCaught = YES;
@@ -180,17 +180,17 @@
 
 -(void)session:(GKSession *)session peer:(NSString *)peerID didChangeState:(GKPeerConnectionState)state {
     if (state == GKPeerStateAvailable) {
-        GKPeerPickerController *pickPlayer = [GKPeerPickerController new];
-        pickPlayer.delegate = self;
-        [pickPlayer show];
-//        [session connectToPeer:peerID withTimeout:3];
+//        GKPeerPickerController *pickPlayer = [GKPeerPickerController new];
+//        pickPlayer.delegate = self;
+//        [pickPlayer show];
+       [session connectToPeer:peerID withTimeout:3];
     } else if (state == GKPeerStateConnected ) {
         session.available = NO;
     }
 }
 
 -(void)peerPickerController:(GKPeerPickerController *)picker didConnectPeer:(NSString *)peerID toSession:(GKSession *)session {
-    
+    NSLog(@"we got the peer connected");
 }
 
 -(void)session:(GKSession *)session didReceiveConnectionRequestFromPeer:(NSString *)peerID {
