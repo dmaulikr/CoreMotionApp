@@ -15,7 +15,7 @@
 #import <GameKit/GameKit.h>
 
 
-@interface ViewController () <GKSessionDelegate>
+@interface ViewController () <GKSessionDelegate, GKPeerPickerControllerDelegate>
 @property (nonatomic) CMMotionManager *motionManager;
 @property (nonatomic) float currentPitch;
 @property (nonatomic) float currentRoll;
@@ -46,6 +46,7 @@
     [NSTimer scheduledTimerWithTimeInterval:0.005 target:self selector:@selector(moveRoadrunner) userInfo:nil repeats:YES];
 
     self.session = [[GKSession alloc] initWithSessionID:@"secretpassword" displayName:@"Ran" sessionMode:GKSessionModePeer];
+    [self.session setDataReceiveHandler:self withContext:nil]; 
     self.session.delegate = self;
     self.session.available = YES;
     }
@@ -179,10 +180,17 @@
 
 -(void)session:(GKSession *)session peer:(NSString *)peerID didChangeState:(GKPeerConnectionState)state {
     if (state == GKPeerStateAvailable) {
-        [session connectToPeer:peerID withTimeout:3];
+        GKPeerPickerController *pickPlayer = [GKPeerPickerController new];
+        pickPlayer.delegate = self;
+        [pickPlayer show];
+//        [session connectToPeer:peerID withTimeout:3];
     } else if (state == GKPeerStateConnected ) {
         session.available = NO;
     }
+}
+
+-(void)peerPickerController:(GKPeerPickerController *)picker didConnectPeer:(NSString *)peerID toSession:(GKSession *)session {
+    
 }
 
 -(void)session:(GKSession *)session didReceiveConnectionRequestFromPeer:(NSString *)peerID {
