@@ -25,18 +25,24 @@
 @property (nonatomic) BOOL alreadyHasAlert;
 @property (nonatomic) BOOL isCaught;
 @property (nonatomic, strong) GKSession* session;
+
 @end
 
 
 @implementation ViewController
 
 -(void)loadView {
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:YES];
+//    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:YES];
     
     Drawing *view = [[Drawing alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     self.view = view;
     [view setBackgroundColor:[UIColor whiteColor]];
     
+    
+   
+    }
+
+-(void) viewDidAppear:(BOOL)animated {
     [self makeRandomRoadrunner];
     [self resetCoyote];
     if (!self.isSinglePlayer) {
@@ -46,14 +52,11 @@
         self.session.delegate = self;
         self.session.available = YES;
     }
-  
+    
     self.motionManager = [[CMMotionManager alloc] init];
     [self startMoving];
     [NSTimer scheduledTimerWithTimeInterval:0.005 target:self selector:@selector(moveRoadrunner) userInfo:nil repeats:YES];
-   
-    }
-
--(void) viewDidLoad {
+    
     UIButton *close = [UIButton buttonWithType:UIButtonTypeCustom];
     [close setFrame:CGRectMake(self.view.bounds.size.width - 50, 10, 40, 40)];
     [close setBackgroundImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
@@ -184,7 +187,7 @@
             randomTranslateValueY = 50 - rand;
         }
         CGPoint translatePosition = CGPointMake(self.roadrunner.center.x + randomTranslateValueX, self.roadrunner.center.y +randomTranslateValueY);
-        if ((CGRectContainsPoint(self.view.frame, translatePosition)) && !CGRectContainsPoint(CGRectMake(self.coyote.frame.origin.x - self.coyote.frame.size.width, self.coyote.frame.origin.y - self.coyote.frame.size.height, self.coyote.frame.size.width *2.0, self.coyote.frame.size.height*2.0), translatePosition)) {
+        if ((CGRectContainsPoint(self.view.bounds, translatePosition)) && !CGRectContainsPoint(CGRectMake(self.coyote.frame.origin.x - self.coyote.frame.size.width, self.coyote.frame.origin.y - self.coyote.frame.size.height, self.coyote.frame.size.width *2.0, self.coyote.frame.size.height*2.0), translatePosition)) {
             self.roadrunner.center = translatePosition;
                         
         } else {
